@@ -27,7 +27,7 @@ NOTE: This project will be kept up to date with the latest packages and Flutter 
 ## Preview
 **Sign-in**
 
-![](preview/forgot.webm)
+![](preview/forgot.gif)
 
 
 **Sign-in**

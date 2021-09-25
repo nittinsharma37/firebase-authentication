@@ -27,7 +27,7 @@ NOTE: This project will be kept up to date with the latest packages and Flutter 
 ## Preview
 **Sign-in**
 
-![](preview/signin.mp4)
+![](preview/forgot.webm)
 
 
 **Sign-in**

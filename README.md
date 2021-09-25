@@ -25,8 +25,8 @@ NOTE: This project will be kept up to date with the latest packages and Flutter 
 - ❌ windows
 
 ## Preview
-**Sign-in**
-<img src="preview/forgot.gif" height="200px" width="400px">
+**Sign-in** <br>
+<img src="preview/forgot.gif" height="600px" width="200px">
 
 
 **Sign-in**

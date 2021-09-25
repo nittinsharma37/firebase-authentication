@@ -60,6 +60,6 @@ NOTE: This project will be kept up to date with the latest packages and Flutter 
 - ✔ Form to enter email for resetting the password.
 - ✔ Button to navigate to the sign-in page.
 
-#### Made with ❤ by [@nittinsharma37](hhttps://github.com/nittinsharma37)
+#### Made with ❤ by [@nittinsharma37](https://github.com/nittinsharma37)
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

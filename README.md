@@ -25,24 +25,27 @@ NOTE: This project will be kept up to date with the latest packages and Flutter 
 - ❌ windows
 
 ## Preview
+**Sign-in**
+
+![](preview/signin.mp4)
 
 
 **Sign-in**
 
-[](preview/signin.png)
+![](preview/signin.png)
 
 **Sign-Up**
 
-[](preview/signup.png)
+![](preview/signup.png)
 
 
 **Forgot-Password**
 
-[](preview/forgot.png)
+![](preview/forgot.png)
 
 **Home**
 
-[](preview/homepage.png)
+![](preview/homepage.png)
 
 ## Features and Plugins used
 - ✔ Null safety

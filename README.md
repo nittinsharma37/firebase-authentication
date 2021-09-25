@@ -25,9 +25,17 @@ NOTE: This project will be kept up to date with the latest packages and Flutter 
 - ❌ windows
 
 ## Preview
-**Sign-in** <br>
-<img src="preview/forgot.gif" height="600px" width="200px">
+**Sign-in** 
+<br/>
+<img src="preview/signin.gif" height="600px" width="300px">
 
+**Sign-up** 
+<br/>
+<img src="preview/signup.gif" height="600px" width="300px">
+
+**Forgot password** 
+<br/>
+<img src="preview/forgot.gif" height="600px" width="300px">
 
 **Sign-in**
 

@@ -24,6 +24,11 @@ NOTE: This project will be kept up to date with the latest packages and Flutter 
 - ✔ web
 - ❌ windows
 
+## Preview
+**Sign-in**
+
+![](preview/signin.png)
+
 ## Features and Plugins used
 - ✔ Null safety
 - ✔ Firebase
@@ -31,9 +36,6 @@ NOTE: This project will be kept up to date with the latest packages and Flutter 
 - ✔ firebase_auth: ^3.1.1
 - ✔ provider: ^6.0.0
 
-  
-## Preview
-//add images and videos here
 
 
 ### Authentication features

@@ -15,7 +15,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   //field vars
 
-  String _errors = "";
+  // String _errors = "";
   String _emailVal = "";
 
   @override
@@ -84,6 +84,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               ? const Center(child: CircularProgressIndicator())
                               : ElevatedButton(
                                   onPressed: () async {
+                                    // ignore: empty_statements
                                     if (!_formKey.currentState!.validate()) ;
                                     setState(() {
                                       loadingStuff = true;

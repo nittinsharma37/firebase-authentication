@@ -1,12 +1,8 @@
-import 'package:app_auth/model/usermodel.dart';
 import 'package:app_auth/service/auth_service.dart';
-import 'package:app_auth/ui/homepage.dart';
-import 'package:app_auth/ui/login.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SignUp extends StatefulWidget {
-   final Function toggleView;
+  final Function toggleView;
   const SignUp({Key? key, required this.toggleView}) : super(key: key);
 
   @override
@@ -124,12 +120,16 @@ class _SignUpState extends State<SignUp> {
                               ? const Center(child: CircularProgressIndicator())
                               : ElevatedButton(
                                   onPressed: () async {
-                                    if (!_formKey.currentState!.validate());
+                                    // ignore: empty_statements
+                                    if (!_formKey.currentState!.validate()) ;
                                     setState(() {
                                       loadingStuff = true;
                                     });
                                     dynamic result = await _authService
-                                      .signUpWithEmailPassword(email: _emailVal, name: _nameVal, password:  _passwordVal);
+                                        .signUpWithEmailPassword(
+                                            email: _emailVal,
+                                            name: _nameVal,
+                                            password: _passwordVal);
                                     if (result == null) {
                                       setState(() {
                                         _errors =
@@ -140,6 +140,7 @@ class _SignUpState extends State<SignUp> {
                                                 content: Text(_errors)));
                                       });
                                     } else {
+                                      // ignore: avoid_print
                                       print(
                                           "signed in succesfully 😊👍👍👍🤞🤞😍👌👌");
                                     }
@@ -161,17 +162,17 @@ class _SignUpState extends State<SignUp> {
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TextButton(
-                                      onPressed: () {
-                                        widget.toggleView();
-                                      },
-                                      child: const Text(
-                                        "Sign In.",
-                                        style: TextStyle(fontSize: 16),
-                                      )),
-                                ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextButton(
+                                onPressed: () {
+                                  widget.toggleView();
+                                },
+                                child: const Text(
+                                  "Sign In.",
+                                  style: TextStyle(fontSize: 16),
+                                )),
+                          ),
                         ],
                       ),
                     ),
@@ -185,5 +186,3 @@ class _SignUpState extends State<SignUp> {
     );
   }
 }
-
-

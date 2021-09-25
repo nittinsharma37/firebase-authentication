@@ -1,10 +1,9 @@
-import 'package:app_auth/model/usermodel.dart';
+
+
+
 import 'package:app_auth/service/auth_service.dart';
 import 'package:app_auth/ui/forgotpassword.dart';
-import 'package:app_auth/ui/homepage.dart';
-import 'package:app_auth/ui/signup.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   final Function toggleView;
@@ -103,6 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                               ? const Center(child: CircularProgressIndicator())
                               : ElevatedButton(
                                   onPressed: () async {
+                                    // ignore: empty_statements
                                     if (!_formKey.currentState!.validate()) ;
                                     setState(() {
                                       loadingStuff = true;
@@ -120,6 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 content: Text(_errors)));
                                       });
                                     } else {
+                                      // ignore: avoid_print
                                       print(
                                           "signed in succesfully 😊👍👍👍🤞🤞😍👌👌");
                                     }
@@ -163,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ForgotPassword()));
+                                                    const ForgotPassword()));
                                       },
                                       child: const Text(
                                         "Forgot Password ?",

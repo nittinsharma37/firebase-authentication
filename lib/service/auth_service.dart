@@ -37,6 +37,7 @@ class AuthService {
       User? user = cred.user;
       return _userFromFirebase(user!);
     } catch (e) {
+       // ignore: avoid_print
        print(e.toString());
       return null;
     }
@@ -55,6 +56,7 @@ class AuthService {
       User? user = cred.user;
       return _userFromFirebase(user!);
     } catch (e) {
+      // ignore: avoid_print
       print(e.toString());
       return null;
     }
@@ -67,6 +69,7 @@ class AuthService {
     try {
       return await _auth.signOut();
     } catch (e) {
+      // ignore: avoid_print
       print(e.toString());
       return null;
     }
@@ -76,6 +79,7 @@ class AuthService {
     try {
       return await _auth.sendPasswordResetEmail(email: email);
     } catch (e) {
+      // ignore: avoid_print
       print(e.toString());
     }
   }

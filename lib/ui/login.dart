@@ -153,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                                       },
                                       child: const Text(
                                         "Create an account.",
-                                        style: TextStyle(fontSize: 16),
+                                        style: TextStyle(fontSize: 14),
                                       )),
                                 ),
                                 Padding(
@@ -168,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                                       },
                                       child: const Text(
                                         "Forgot Password ?",
-                                        style: TextStyle(fontSize: 16),
+                                        style: TextStyle(fontSize: 14),
                                       )),
                                 ),
                               ]),

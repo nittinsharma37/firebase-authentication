@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () async {
               await _authService
                   .signout()
+                  // ignore: avoid_print
                   .then((value) => print(value.toString()));
             },
             child: Row(

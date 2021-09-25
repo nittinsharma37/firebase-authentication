@@ -26,8 +26,7 @@ NOTE: This project will be kept up to date with the latest packages and Flutter 
 
 ## Preview
 **Sign-in**
-
-<video controls loop><source src='preview/forgot.webm'></video>
+<img src="preview/forgot.gif" height="200px" width="400px">
 
 
 **Sign-in**

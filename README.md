@@ -27,11 +27,11 @@ NOTE: This project will be kept up to date with the latest packages and Flutter 
 ## Preview
 **Sign-in** 
 <br/>
-<img src="preview/signin.gif" height="600px" width="300px">
+<img src="preview/forgot.gif" height="600px" width="300px">
 
 **Sign-up** 
 <br/>
-<img src="preview/signup.gif" height="600px" width="300px">
+<img src="preview/forgot.gif" height="600px" width="300px">
 
 **Forgot password** 
 <br/>

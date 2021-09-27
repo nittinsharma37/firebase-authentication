@@ -27,7 +27,7 @@ NOTE: This project will be kept up to date with the latest packages and Flutter 
 ## Preview
 **Sign-in** 
 <br/><br/>
-<img src="preview/signin.gif" height="600px" width="300px"> 
+<img src="preview/signin.gif" height="600px" width="300px">
 
 **Sign-up** 
 <br/><br/>
@@ -38,10 +38,22 @@ NOTE: This project will be kept up to date with the latest packages and Flutter 
 <img src="preview/forgot.gif" height="600px" width="300px">
 <br/>
 
-**Sign-in** ![](preview/signin.png) **Sign-Up** ![](preview/signup.png)
+**Sign-in**
+
+![](preview/signin.png)
+
+**Sign-Up**
+
+![](preview/signup.png)
 
 
-**Forgot-Password** ![](preview/forgot.png) **Home** ![](preview/homepage.png)
+**Forgot-Password**
+
+![](preview/forgot.png)
+
+**Home**
+
+![](preview/homepage.png)
 
 ## Features and Plugins used
 - ✔ Null safety

@@ -90,11 +90,11 @@ NOTE: This project will be kept up to date with the latest packages and Flutter 
 
 
 ### Features to add
--- Mobile number authentication 
--- google authentication 
--- signin/signup via facebook
--- signin/signup using twitter 
--- signin/signup using github
+- Mobile number authentication 
+- google authentication 
+- signin/signup via facebook
+- signin/signup using twitter 
+- signin/signup using github
 
 #### Made with ❤ by [@nittinsharma37](https://github.com/nittinsharma37)
 ## License

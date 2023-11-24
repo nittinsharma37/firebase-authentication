@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:rewardscard/ui/login.dart';
+import 'login.dart';
 import '../service/auth_service.dart';
 
 class HomePage extends StatelessWidget {

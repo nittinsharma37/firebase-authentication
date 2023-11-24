@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../model/signinresult.dart';
+import 'package:rewardscard/model/signinresult.dart';
 import '../model/usermodel.dart';
 
 class AuthService {
@@ -15,16 +16,26 @@ class AuthService {
     );
   }
 
-  //return current user
-  User? getCurrentUser() {
-    return _auth.currentUser;
-  }
-
   //auth changes user stream
   Stream<UserModel?> get user {
     return _auth.authStateChanges().map((User? user) {
       return _userFromFirebase(user!);
     });
+  }
+
+  //reload user from Firebase.
+  Future<void> reloadUser() async {
+    User? user = _auth.currentUser;
+    if (user == null) {
+      return;
+    } else {
+      await user.reload();
+    }
+  }
+
+  //Return current user
+  User? getCurrentUser() {
+    return _auth.currentUser;
   }
 
  
@@ -50,7 +61,6 @@ class AuthService {
   }
 
   //sign in  with email and password
-
   Future<SignInResult> signinUsingEmailPassword(
       String email, String pass) async {
     UserModel? user;
@@ -79,6 +89,7 @@ class AuthService {
     }
   }
 
+  //send reset password email (this also verifies emails)
   Future resetPassword({required String email}) async {
     try {
       return await _auth.sendPasswordResetEmail(email: email);
@@ -86,5 +97,16 @@ class AuthService {
       // ignore: avoid_print
       print(e.toString());
     }
+  }
+
+  //Send "verify email" email
+  Future<bool> sendEmailVerification() async {
+    User? user = _auth.currentUser;
+    bool rtn = false;
+    if (user != null) {
+      await user.sendEmailVerification();
+      rtn = true;
+    }
+    return rtn;
   }
 }

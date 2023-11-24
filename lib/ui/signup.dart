@@ -1,186 +1,135 @@
-import 'package:app_auth/service/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:rewardscard/model/signinresult.dart';
+import '../service/auth_service.dart';
+import 'homepage.dart';
 
-class SignUp extends StatefulWidget {
-  final Function toggleView;
-  const SignUp({Key? key, required this.toggleView}) : super(key: key);
+class SignUp extends StatelessWidget {
+  SignUp({super.key});
 
-  @override
-  _SignUpState createState() => _SignUpState();
-}
-
-class _SignUpState extends State<SignUp> {
   final AuthService _authService = AuthService();
   final _formKey = GlobalKey<FormState>();
-  bool loadingStuff = false;
 
   //field vars
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
-  String _errors = "";
-  String _nameVal = "";
-  String _emailVal = "";
-  String _passwordVal = "";
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final snackbar = ScaffoldMessenger.of(context);
+    final nav = Navigator.of(context);
+
     return Scaffold(
       body: SingleChildScrollView(
-        child: SizedBox(
-          height: size.height,
-          child: Stack(
-            children: [
-              ListView(
-                children: [
-                  SizedBox(
-                    height: size.height * 0.2,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 10),
-                    height: size.height * 0.15,
-                    child: Text(
-                      "Sign Up.",
-                      style: Theme.of(context).textTheme.headline1,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Sign Up.",
+                style: Theme.of(context).textTheme.displayLarge,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: nameController,
+                      decoration: const InputDecoration(
+                        labelText: "Name",
+                        prefixIcon: Icon(Icons.person),
+                      ),
+                      keyboardType: TextInputType.text,
+                      validator: (val) {
+                        if (val!.isEmpty) {
+                          return 'Enter a valid name';
+                        }
+                        return null;
+                      },
                     ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.05,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 10),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            decoration: const InputDecoration(
-                              labelText: "Name",
-                              prefixIcon: Icon(Icons.person),
+                    SizedBox(
+                      height: size.height * 0.05,
+                    ),
+                    TextFormField(
+                      controller: emailController,
+                      decoration: const InputDecoration(
+                        labelText: "Email",
+                        prefixIcon: Icon(Icons.email_outlined),
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (val) {
+                        if (val!.isEmpty ||
+                            !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(val)) {
+                          return 'Enter a valid email!';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                      height: size.height * 0.05,
+                    ),
+                    TextFormField(
+                      controller: passwordController,
+                      decoration: const InputDecoration(
+                        labelText: "Password",
+                        prefixIcon: Icon(Icons.lock_outline),
+                      ),
+                      validator: (val) =>
+                          val!.length < 6 ? 'Enter a valid password' : null,
+                      obscureText: true,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            SignInResult result =
+                                await _authService.signUpWithEmailPassword(
+                                    email: emailController.text,
+                                    name: nameController.text,
+                                    password: passwordController.text);
+                            if (result.error != null || result.user == null) {
+                              snackbar.showSnackBar(SnackBar(
+                                  content:
+                                      Text(result.error ?? "Unknown error")));
+                            } else {
+                              nav.pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (_) =>
+                                        const HomePage()), // Replace with your next screen
+                              );
+                            }
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                        child: Ink(
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 50, vertical: 20),
+                            child: Text(
+                              "Sign Up",
+                              style: TextStyle(fontSize: 18),
                             ),
-                            keyboardType: TextInputType.text,
-                            onChanged: (val) {
-                              setState(() {
-                                _nameVal = val;
-                              });
-                            },
-                            validator: (val) {
-                              if (val!.isEmpty) {
-                                return 'Enter a valid Name';
-                              }
-                              return null;
-                            },
                           ),
-                          SizedBox(
-                            height: size.height * 0.05,
-                          ),
-                          TextFormField(
-                            decoration: const InputDecoration(
-                              labelText: "Email",
-                              prefixIcon: Icon(Icons.email_outlined),
-                            ),
-                            keyboardType: TextInputType.emailAddress,
-                            onChanged: (val) {
-                              setState(() {
-                                _emailVal = val;
-                              });
-                            },
-                            validator: (val) {
-                              if (val!.isEmpty ||
-                                  !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                      .hasMatch(val)) {
-                                return 'Enter a valid email!';
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(
-                            height: size.height * 0.05,
-                          ),
-                          TextFormField(
-                            decoration: const InputDecoration(
-                              labelText: "Password",
-                              prefixIcon: Icon(Icons.lock_outline),
-                            ),
-                            validator: (val) => val!.length < 6
-                                ? 'Enter a valid password'
-                                : null,
-                            obscureText: true,
-                            onChanged: (val) {
-                              setState(() {
-                                _passwordVal = val;
-                              });
-                            },
-                          ),
-                          SizedBox(
-                            height: size.height * 0.05,
-                          ),
-                          loadingStuff
-                              ? const Center(child: CircularProgressIndicator())
-                              : ElevatedButton(
-                                  onPressed: () async {
-                                    // ignore: empty_statements
-                                    if (!_formKey.currentState!.validate()) ;
-                                    setState(() {
-                                      loadingStuff = true;
-                                    });
-                                    dynamic result = await _authService
-                                        .signUpWithEmailPassword(
-                                            email: _emailVal,
-                                            name: _nameVal,
-                                            password: _passwordVal);
-                                    if (result == null) {
-                                      setState(() {
-                                        _errors =
-                                            "There is a problem with signing in the user check the credentials ";
-                                        loadingStuff = false;
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                content: Text(_errors)));
-                                      });
-                                    } else {
-                                      // ignore: avoid_print
-                                      print(
-                                          "signed in succesfully 😊👍👍👍🤞🤞😍👌👌");
-                                    }
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.zero,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                  ),
-                                  child: Ink(
-                                    child: const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 50, vertical: 20),
-                                      child: Text(
-                                        "Sign Up",
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextButton(
-                                onPressed: () {
-                                  widget.toggleView();
-                                },
-                                child: const Text(
-                                  "Sign In.",
-                                  style: TextStyle(fontSize: 16),
-                                )),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
-                  )
-                ],
-              )
-            ],
-          ),
+                  ],
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );

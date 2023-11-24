@@ -1,24 +1,21 @@
-import 'package:app_auth/auth_selector.dart';
-import 'package:app_auth/model/usermodel.dart';
-import 'package:app_auth/service/auth_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'auth_selector.dart';
+import 'model/usermodel.dart';
+import 'service/auth_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const App());
+  runApp(
+    MyApp(),
+  );
 }
 
-class App extends StatefulWidget {
-  const App({Key? key}) : super(key: key);
+class MyApp extends StatelessWidget {
+  MyApp({super.key});
 
-  @override
-  _AppState createState() => _AppState();
-}
-
-class _AppState extends State<App> {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   @override
   Widget build(BuildContext context) {
@@ -31,9 +28,9 @@ class _AppState extends State<App> {
           focusColor: Colors.blue,
         ),
         textTheme: const TextTheme(
-          headline1: TextStyle(fontSize: 42.0, fontWeight: FontWeight.bold),
-          headline6: TextStyle(fontSize: 26.0),
-          bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+          displayLarge: TextStyle(fontSize: 42.0, fontWeight: FontWeight.bold),
+          titleLarge: TextStyle(fontSize: 26.0),
+          bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
         ),
         colorScheme:
             ColorScheme.fromSwatch(primarySwatch: Colors.blue).copyWith(
@@ -42,16 +39,21 @@ class _AppState extends State<App> {
       ),
       home: FutureBuilder(
         future: _initialization,
-        builder: (context, snapshot){
-          if(snapshot.hasError){
-            return const Scaffold(body: Center(child: Text("Something went wrong!"),),);
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Scaffold(
+              body: Center(
+                child: Text("Something went wrong!"),
+              ),
+            );
           }
-         if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.connectionState == ConnectionState.done) {
             return MultiProvider(
               providers: [
                 StreamProvider<UserModel?>.value(
                   initialData: null,
                   catchError: (_, op) => null,
+                  //updateShouldNotify: (_, __) => true,
                   value: AuthService().user,
                 ),
               ],
@@ -59,7 +61,10 @@ class _AppState extends State<App> {
             );
             // return AuthSelector();
           }
-          return const Scaffold(body: Center(child: CircularProgressIndicator(),));
+          return const Scaffold(
+              body: Center(
+            child: CircularProgressIndicator(),
+          ));
         },
       ),
     );

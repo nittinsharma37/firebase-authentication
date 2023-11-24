@@ -1,24 +1,19 @@
-import 'package:app_auth/model/usermodel.dart';
-import 'package:app_auth/service/authenticate.dart';
-import 'package:app_auth/ui/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'ui/homepage.dart';
+import 'ui/login.dart';
+import 'model/usermodel.dart';
 
-class AuthSelector extends StatefulWidget {
-  const AuthSelector({Key? key}) : super(key: key);
+class AuthSelector extends StatelessWidget {
+  const AuthSelector({super.key});
 
-  @override
-  _AuthSelectorState createState() => _AuthSelectorState();
-}
-
-class _AuthSelectorState extends State<AuthSelector> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel?>(context);
     if (user != null) {
-      return HomePage(user: user,);
+      return const HomePage();
     } else {
-      return const Authenticate();
+      return LoginPage();
     }
   }
 }

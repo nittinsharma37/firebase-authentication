@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rewardscard/model/signinresult.dart';
+import '../model/signinresult.dart';
 import '../model/usermodel.dart';
 
 class AuthService {

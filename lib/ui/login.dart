@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../service/auth_service.dart';
 import '../model/signinresult.dart';
 import 'forgotpassword.dart';
-import 'homepage.dart';
 import 'signup.dart';
+import 'shared.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -18,10 +18,8 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final size = MediaQuery.of(context).size;
     final snackbar = ScaffoldMessenger.of(context);
-    final nav = Navigator.of(context);
-
+    print('debug_auth: login rebuilt');
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -78,17 +76,9 @@ class LoginPage extends StatelessWidget {
                                 emailController.text,
                                 passwordController.text,
                               );
-                              if (result.error != null || result.user == null) {
-                                snackbar.showSnackBar(SnackBar(
-                                    content:
-                                        Text(result.error ?? 'Unknown error')));
-                              } else {
-                                nav.pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (_) =>
-                                          const HomePage()), // Replace with your next screen
-                                );
-                              }
+                              //display error if any
+                              snackbarHandler(result, snackbar, '');
+                              //do not navigate here, change to user will cause AuthSelector to rebuild and return the right page
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -116,23 +106,24 @@ class LoginPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextButton(
-                      onPressed: () {
-                        nav.pushReplacement(
-                          MaterialPageRoute(
-                              builder: (_) =>
-                                  SignUp()), // Replace with your next screen
-                        );
-                      },
-                      child: const Text(
-                        "Create account",
-                        style: TextStyle(fontSize: 14),
-                      )),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignUp()),
+                      );
+                    },
+                    child: const Text(
+                      "Create account",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextButton(
                       onPressed: () {
-                        nav.push(
+                        Navigator.push(
+                          context,
                           MaterialPageRoute(
                               builder: (context) => ForgotPassword()),
                         );

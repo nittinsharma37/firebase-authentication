@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:rewardscard/model/signinresult.dart';
+import '../model/signinresult.dart';
 import '../service/auth_service.dart';
-import 'homepage.dart';
+import 'shared.dart';
+
 
 class SignUp extends StatelessWidget {
   SignUp({super.key});
-
+  static const routeName = 'signup';
   final AuthService _authService = AuthService();
   final _formKey = GlobalKey<FormState>();
 
@@ -21,6 +22,7 @@ class SignUp extends StatelessWidget {
     final snackbar = ScaffoldMessenger.of(context);
     final nav = Navigator.of(context);
 
+    print('debug_auth: signUp rebuilt');
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -95,17 +97,9 @@ class SignUp extends StatelessWidget {
                                     email: emailController.text,
                                     name: nameController.text,
                                     password: passwordController.text);
-                            if (result.error != null || result.user == null) {
-                              snackbar.showSnackBar(SnackBar(
-                                  content:
-                                      Text(result.error ?? "Unknown error")));
-                            } else {
-                              nav.pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (_) =>
-                                        const HomePage()), // Replace with your next screen
-                              );
-                            }
+                            snackbarHandler(
+                                result, snackbar, 'Signed up succesfully!');
+                            nav.pop();
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -124,6 +118,17 @@ class SignUp extends StatelessWidget {
                           ),
                         ),
                       ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            "Sign In.",
+                            style: TextStyle(fontSize: 16),
+                          )),
                     ),
                   ],
                 ),

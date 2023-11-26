@@ -1,44 +1,41 @@
-import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../model/signinresult.dart';
 import '../model/usermodel.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final StreamController<UserModel?> _userController =
+      StreamController<UserModel?>();
+  bool isInitilized = false;
 
   //create user obj from firebase user
-  UserModel? _userFromFirebase(User user) {
+  UserModel? _userFromFirebase(User? user) {
+    if (user == null) {
+      return null;
+    }
     return UserModel(
       userId: user.uid,
       name: user.displayName ?? '',
       email: user.email ?? '',
+      emailVerified: user.emailVerified,
     );
   }
 
-  //auth changes user stream
-  Stream<UserModel?> get user {
-    return _auth.authStateChanges().map((User? user) {
-      return _userFromFirebase(user!);
+  // Auth changes user stream
+  Stream<UserModel?> get user => _userController.stream;
+
+  AuthService() {
+    _auth.authStateChanges().listen((User? user) {
+      final UserModel? userModel = _userFromFirebase(user);
+      _userController.add(userModel);
+      print('debug_auth: emit event. data: $user');
     });
   }
 
-  //reload user from Firebase.
-  Future<void> reloadUser() async {
-    User? user = _auth.currentUser;
-    if (user == null) {
-      return;
-    } else {
-      await user.reload();
-    }
+  void dispose() {
+    _userController.close();
   }
-
-  //Return current user
-  User? getCurrentUser() {
-    return _auth.currentUser;
-  }
-
- 
 
   // SIGN UP WITH EMAIL AND PASSWORD
   Future<SignInResult> signUpWithEmailPassword(
@@ -54,7 +51,6 @@ class AuthService {
         user = _userFromFirebase(cred.user!);
       }
     } catch (e) {
-      // ignore: avoid_print
       err = e.toString();
     }
     return SignInResult(user: user, error: err);
@@ -70,6 +66,8 @@ class AuthService {
           await _auth.signInWithEmailAndPassword(email: email, password: pass);
       if (cred.user != null) {
         user = _userFromFirebase(cred.user!);
+      } else {
+        err = 'No user found!';
       }
     } catch (e) {
       // Handle error and return it along with null user
@@ -79,34 +77,61 @@ class AuthService {
   }
 
   //signout
-  Future signout() async {
+  Future<SignInResult> signout() async {
+    String? err;
     try {
-      return await _auth.signOut();
+      await _auth.signOut();
+      // _userController.add(null); // Add user data to the stream
     } catch (e) {
       // ignore: avoid_print
-      print(e.toString());
-      return null;
+      err = e.toString();
     }
+    return SignInResult(user: null, error: err);
   }
 
   //send reset password email (this also verifies emails)
-  Future resetPassword({required String email}) async {
+  Future<SignInResult> resetPassword({required String email}) async {
+    String? err;
     try {
-      return await _auth.sendPasswordResetEmail(email: email);
+      await _auth.sendPasswordResetEmail(email: email);
     } catch (e) {
       // ignore: avoid_print
-      print(e.toString());
+      err = e.toString();
     }
+    return SignInResult(user: null, error: err);
   }
 
   //Send "verify email" email
-  Future<bool> sendEmailVerification() async {
+  Future<SignInResult> sendEmailVerification() async {
     User? user = _auth.currentUser;
-    bool rtn = false;
+    String? err;
     if (user != null) {
-      await user.sendEmailVerification();
-      rtn = true;
+      try {
+        await user.sendEmailVerification();
+      } catch (e) {
+        err = e.toString();
+      }
+    } else {
+      err = 'Error: No user found!';
     }
-    return rtn;
+    return SignInResult(user: null, error: err);
+  }
+
+  Future<SignInResult> reloadUser() async {
+    User? user = _auth.currentUser;
+
+    String? err;
+    if (user != null) {
+      try {
+        await user.reload();
+        user = _auth.currentUser;
+        _userController.add(_userFromFirebase(user));
+      } catch (e) {
+        err = e.toString();
+      }
+    } else {
+      err = 'Error: No user found!';
+    }
+    return SignInResult(user: null, error: err);
   }
 }

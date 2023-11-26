@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class ForgotPassword extends StatelessWidget {
   ForgotPassword({super.key});
-
+  static const routeName = 'forgotpassword';
   final AuthService _authService = AuthService();
   final _formKey = GlobalKey<FormState>();
 

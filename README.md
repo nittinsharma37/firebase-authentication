@@ -8,12 +8,15 @@ It aims to be a reference implementation. Think of it as "authentication done ri
 ## Project goals
 This project shows how to:
 
-- Sign up with an email and password.
-- Sign in with that email and password.
-- Reset password.
-- use appropriate state management techniques to separate UI, logic, and Firebase authentication code
-- handle errors and present user-friendly error messages
-- write production-ready code following best practices
+- Sign up with an email and password
+- Sign in with that email and password
+- Verify email
+- Reset password
+- Sign up with Google authentication
+- Sign in with Google authentication
+- Use appropriate state management techniques to separate UI, logic, and Firebase authentication code
+- Handle errors and present user-friendly error messages
+- Write production-ready code following best practices
 
 Feel free to use this in your own projects. 😉
 ```bash
@@ -58,19 +61,24 @@ NOTE: This project will be kept up to date with the latest packages and Flutter 
 ## Features and Plugins used
 - ✔ Null safety
 - ✔ Firebase
-- ✔ firebase_core: ^1.6.0
-- ✔ firebase_auth: ^3.1.1
-- ✔ provider: ^6.0.0
-
+- ✔ firebase_core
+- ✔ firebase_auth1
+- ✔ provider
 
 
 ### Authentication features
 
-- ✔ Email & Password Sign In.
-- ✔ Email & Password Sign Up.
-- ✔ Reset Password.
+- ✔ Email & Password Sign In
+- ✔ Email & Password Sign Up
+- ✔ Reset Password
+- ✔ Verify Email
+- ✔ Google authenticaton
 
 ## Application features
+
+### Choose provider page
+
+- ✔ Select between email/password and Google authnticaton
 
 ### Sign-in Page
 
@@ -91,7 +99,6 @@ NOTE: This project will be kept up to date with the latest packages and Flutter 
 
 ### Features to add
 - Mobile number authentication 
-- google authentication 
 - signin/signup via facebook
 - signin/signup using twitter 
 - signin/signup using github

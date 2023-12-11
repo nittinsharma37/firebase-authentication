@@ -1,7 +1,7 @@
 # Firebase-authentication
 
 This project is an example of Firebase authentication in a flutter.
-This project shows how to implement a full authentication flow in Flutter, using sign Up with email and password, sign in with email and password, and reset password.
+This project shows how to implement a full authentication flow in Flutter, using Email.Password and Google authentication.
 
 It aims to be a reference implementation. Think of it as "authentication done right".
 
@@ -22,6 +22,12 @@ Feel free to use this in your own projects. 😉
 ```bash
 NOTE: This project will be kept up to date with the latest packages and Flutter version._
 ```
+
+## Firebase Configuration
+- Follow [Firebase documentation](https://firebase.google.com/docs/auth/flutter/start) to configure Firebase SDK
+- For Google authentication follow [these instructions](https://developers.google.com/android/guides/client-auth) to add your app SHA1 fingerprint to Firebase
+
+
 ## Platforms supported
 - ✔ Android
 - ✔ web

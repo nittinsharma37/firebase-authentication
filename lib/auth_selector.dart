@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rewardscard/ui/login_choice.dart';
 import 'service/auth_service.dart';
 import 'ui/homepage.dart';
-//import 'ui/login_choice.dart';
+import 'ui/login_choice.dart';
 import 'model/usermodel.dart';
 
 class AuthSelector extends StatelessWidget {

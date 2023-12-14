@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rewardscard/model/signinresult.dart';
+import '../model/signinresult.dart';
 import '../service/auth_service.dart';
 import 'login.dart';
 import 'shared.dart';

@@ -19,13 +19,17 @@ This project shows how to:
 - Write production-ready code following best practices
 
 Feel free to use this in your own projects. 😉
-```bash
+```
+bash
 NOTE: This project will be kept up to date with the latest packages and Flutter version._
 ```
 
 ## Firebase Configuration
-- Follow [Firebase documentation](https://firebase.google.com/docs/auth/flutter/start) to configure Firebase SDK
-- For Google authentication follow [these instructions](https://developers.google.com/android/guides/client-auth) to add your app SHA1 fingerprint to Firebase
+- Create Firebase authentication project in Firebase console
+- Follow [Firebase documentation](https://firebase.google.com/docs/flutter/setup?platform=android) to configure Firebase SDK
+    The key here is to run `flutterfire configure` which will add you app to your Firebase project and add `google-services.json` and `firebase-options.dart` files to your project
+- For Google authentication you have to add your [SHA certificate fingerprint](https://support.google.com/firebase/answer/9137403?hl=en) to your project in Firebase console. In dev, use below command to get your dev certificate fingerprints (SHA1 and SHA256) and paste them into Firebase console:
+`keytool -list -v -keystore "C:\Users\YourUserName\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android`
 
 
 ## Platforms supported

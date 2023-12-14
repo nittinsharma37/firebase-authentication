@@ -1,7 +1,7 @@
 # Firebase-authentication
 
-This project is an example of Firebase authentication in a flutter.
-This project shows how to implement a full authentication flow in Flutter, using Email/Password and Google authentication.
+This project is an example of Firebase authentication in a Flutter.
+This project shows how to implement a full authentication flow in Flutter using Email/Password and Google authentication.
 
 It aims to be a reference implementation. Think of it as "authentication done right".
 
@@ -20,15 +20,17 @@ This project shows how to:
 
 Feel free to use this in your own projects. 😉
 ```
-NOTE: This project will be kept up to date with the latest packages and Flutter version._
+NOTE: This project will be kept up to date with the latest packages and Flutter version.
 ```
 
-## Firebase Configuration
-- Create Firebase authentication project in Firebase console
-- Follow [Firebase documentation](https://firebase.google.com/docs/flutter/setup?platform=android) to configure Firebase SDK. The key here is to run `flutterfire configure` which will add your app to your Firebase project and add `google-services.json` and `firebase-options.dart` files to your project
-- For Google authentication you have to add your [SHA certificate fingerprint](https://support.google.com/firebase/answer/9137403?hl=en) to your project in Firebase console. In dev, use below command to get your dev certificate fingerprints (SHA1 and SHA256) and paste them into Firebase console:
+## Configuring your project
+- After getting a project from GitHub run `flutter pub upgrade` to get latest dependencies
+- Next run `flutterfire configure` to create `firebase` project and associate your Flutter app with Firebase project. This will also add `google-services.json` and `firebase-options.dart` files to your project. If you haven't configured Firebase before follow these [instructions](https://firebase.google.com/docs/flutter/setup?platform=android) to configure Firebase SDK. Note that there are a lot of problems with stand alone installation on Windows, you are better off using `npm` approach even though it is a little more diffcult to configure
+- For Google authentication you have to add your [SHA certificate fingerprint](https://support.google.com/firebase/answer/9137403?hl=en) to your project in Firebase console. In dev, use below command to get your dev certificate fingerprints (SHA1 and SHA256) and paste them into Firebase console undr project settings:
 `keytool -list -v -keystore "C:\Users\YourUserName\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android`
-
+- In `Firebase Console` add Authentication to your project ad enable email/password authentication. Also, add another provider and configure Google authentication method. Run `flutterfire configure` again (you have to do this after making changes in the console)
+<img src="preview/email.gif" height="600px" width="300px">
+- You should now be able to run the app
 
 ## Platforms supported
 - ✔ Android
@@ -51,20 +53,20 @@ NOTE: This project will be kept up to date with the latest packages and Flutter 
 
 **Sign-in**
 
-![](preview/signin.png)
+![sign-in](preview/signin.png)
 
 **Sign-Up**
 
-![](preview/signup.png)
+![sign-up](preview/signup.png)
 
 
 **Forgot-Password**
 
-![](preview/forgot.png)
+![forgot-password](preview/forgot.png)
 
 **Home**
 
-![](preview/homepage.png)
+![home](preview/homepage.png)
 
 ## Features and Plugins used
 - ✔ Null safety

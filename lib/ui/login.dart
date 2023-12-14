@@ -19,6 +19,8 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final snackbar = ScaffoldMessenger.of(context);
+    final nav = Navigator.of(context);
+
     print('debug_auth: login rebuilt');
     return SafeArea(
       child: Scaffold(
@@ -77,8 +79,12 @@ class LoginPage extends StatelessWidget {
                                 passwordController.text,
                               );
                               //display error if any
-                              snackbarHandler(result, snackbar, '');
-                              //do not navigate here, change to user will cause AuthSelector to rebuild and return the right page
+                              print('debug_auth: signing in with email');
+                              snackbarHandler(result, snackbar, 'Signed in');
+                              //pop page if success
+                              if (result.error == null) {
+                                nav.pop();
+                              }
                             }
                           },
                           style: ElevatedButton.styleFrom(

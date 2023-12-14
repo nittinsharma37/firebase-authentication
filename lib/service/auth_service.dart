@@ -111,6 +111,7 @@ class AuthService {
       }
       _auth.signOut();
       if (signOutGoogle) {
+        print('debug_auth: signed out google');
         await _googleSignIn.signOut();
       }
     } catch (e) {

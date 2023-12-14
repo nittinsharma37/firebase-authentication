@@ -38,7 +38,13 @@ class LoginChoicePage extends StatelessWidget {
               onPressed: () async {
                 // Handle Google authentication
                 SignInResult result = await _authService.signInWithGoogle();
+                print('debug_auth: signing in with google ${result.error}');
                 if (result.user == null || result.error != null) {
+                  try {
+                    _authService.signout();
+                  } catch (e) {
+                    print('debug_auth: signed out');
+                  }
                   snackbarHandler(result, snackbar, '');
                 }
               },

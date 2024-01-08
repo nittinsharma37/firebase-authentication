@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../model/signinresult.dart';
 import '../model/usermodel.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   final StreamController<UserModel?> _userController =
       StreamController<UserModel?>();
   bool isInitilized = false;
@@ -14,12 +16,35 @@ class AuthService {
     if (user == null) {
       return null;
     }
+
+    AuthType authType = _getAuthType(user);
+
     return UserModel(
       userId: user.uid,
       name: user.displayName ?? '',
       email: user.email ?? '',
       emailVerified: user.emailVerified,
+      authType: authType,
     );
+  }
+
+  AuthType _getAuthType(User? user) {
+    AuthType authType = AuthType.unknown; // Default to email authentication
+    if (user == null) {
+      return authType;
+    }
+
+    for (UserInfo userInfo in user.providerData) {
+      if (userInfo.providerId == 'google.com') {
+        authType = AuthType.google;
+        break;
+      } else if (userInfo.providerId == 'password') {
+        authType = AuthType.email;
+        break;
+      }
+      // Add conditions for other providers if needed
+    }
+    return authType;
   }
 
   // Auth changes user stream
@@ -79,9 +104,16 @@ class AuthService {
   //signout
   Future<SignInResult> signout() async {
     String? err;
+    bool signOutGoogle = false;
     try {
-      await _auth.signOut();
-      // _userController.add(null); // Add user data to the stream
+      if (_getAuthType(_auth.currentUser) == AuthType.google) {
+        signOutGoogle = true;
+      }
+      _auth.signOut();
+      if (signOutGoogle) {
+        print('debug_auth: signed out google');
+        await _googleSignIn.signOut();
+      }
     } catch (e) {
       // ignore: avoid_print
       err = e.toString();
@@ -133,5 +165,29 @@ class AuthService {
       err = 'Error: No user found!';
     }
     return SignInResult(user: null, error: err);
+  }
+
+  Future<SignInResult> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        return SignInResult(user: null, error: "Could not log in");
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      return SignInResult(
+          user: _userFromFirebase(userCredential.user), error: null);
+    } catch (error) {
+      print(error);
+      return SignInResult(user: null, error: error.toString());
+    }
   }
 }

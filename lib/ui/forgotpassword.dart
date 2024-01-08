@@ -1,5 +1,5 @@
-import 'package:rewardscard/service/auth_service.dart';
 import 'package:flutter/material.dart';
+import '../service/auth_service.dart';
 
 class ForgotPassword extends StatelessWidget {
   ForgotPassword({super.key});

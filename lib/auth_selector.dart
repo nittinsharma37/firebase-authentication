@@ -1,74 +1,45 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'auth_selector.dart';
-import 'model/usermodel.dart';
 import 'service/auth_service.dart';
+import 'ui/homepage.dart';
+import 'ui/login_choice.dart';
+import 'model/usermodel.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+class AuthSelector extends StatelessWidget {
+  const AuthSelector({super.key});
 
-  runApp(
-    MyApp(),
-  );
-}
+  Future<void> reloadUser() async {
+    //this is used to reload user
+    //reloading ensures that we have the latest info from firebase
+    //without reload, old data is read from cache
+    print('debug_auth: user reloaded');
+    AuthService authService = AuthService();
+    await authService.reloadUser();
+  }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
-
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Firebase Auth",
-      theme: ThemeData(
-        primaryColor: Colors.white,
-        inputDecorationTheme: const InputDecorationTheme(
-          focusColor: Colors.blue,
-        ),
-        textTheme: const TextTheme(
-          displayLarge: TextStyle(fontSize: 42.0, fontWeight: FontWeight.bold),
-          titleLarge: TextStyle(fontSize: 26.0),
-          bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
-        ),
-        colorScheme:
-            ColorScheme.fromSwatch(primarySwatch: Colors.blue).copyWith(
-          secondary: const Color(0xffBFFF80),
-        ),
-      ),
-      home: FutureBuilder(
-        future: _initialization,
+    print('debug_auth: authSelector rebuilt');
+
+    //this widget listens to stream and rebuilds every time there is a change in user (e.g. sign out)
+    //this will navigate to either login or home page
+    final user = Provider.of<UserModel?>(context);
+
+    if (user != null) {
+      return FutureBuilder(
+        future: reloadUser(),
         builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return const Scaffold(
-              body: Center(
-                child: Text("Something went wrong!"),
-              ),
-            );
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator(); // Display a loading spinner while fetching data
+          } else if (snapshot.hasError) {
+            return LoginChoicePage();
+          } else {
+            return const HomePage();
           }
-          if (snapshot.connectionState == ConnectionState.done) {
-            return MultiProvider(
-              providers: [
-                //stream provider listens to changes in firebase user
-                //filter for "debug_auth" in debug console to see key events
-                StreamProvider<UserModel?>.value(
-                  initialData: null,
-                  catchError: (_, op) => null,
-                  //updateShouldNotify: (_, __) => true,
-                  value: AuthService().user,
-                ),
-              ],
-              child:
-                  const AuthSelector(), //select either login or home page based on user state
-            );
-          }
-          return const Scaffold(
-              body: Center(
-            child: CircularProgressIndicator(),
-          ));
         },
-      ),
-    );
+      );
+    } else {
+      return LoginChoicePage();
+    }
   }
 }
